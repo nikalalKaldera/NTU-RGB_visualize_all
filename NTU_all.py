@@ -3,6 +3,7 @@ import os
 import numpy as np
 # from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+import argparse
 
 skeleton_path = "F:/Nikalal/Courses/CSIT999/Visualise/Dataset/Sample/"
 trunk_joints = [0, 1, 20, 2, 3]
@@ -128,7 +129,7 @@ class Draw3DSkeleton(object):
         plt.ion()
 
         data = np.transpose(self.xyz, (3, 1, 2, 0))  #no_body, frame, joints, xyz  # Change the index value, change the index value of the x subscript to the end, and change the max_body index value to the front
-        print(data.shape)
+        # print(data.shape)
         # data rotation
         if (self.x_rotation is not None) or (self.y_rotation is not None):
 
@@ -195,12 +196,18 @@ def read_files(dir_path):
 
 
 if __name__ == '__main__':
-    # test sample
-    #sk = Draw3DSkeleton("F:/Nikalal/Courses/CSIT999/Visualise/Dataset/NTU_001_to_s017/NTU_60/S001C001P001R001A001.skeleton")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('skeleton_path', type=str)
+    parser.add_argument('coordinates', type=int)
+    parser.add_argument('joints', type=int)
+    # parser.add_argument('--skeleton path', type=str, required=True)
+    args = parser.parse_args()
+
     dat, sk = read_files(skeleton_path)
-    # print(sk[9].shape)
-    all_data = np.zeros(shape=(len(dat), 3, 300, 25, 2))
-    #print(all_data.shape)
+    print(sk[9].shape)
+    # all_data = np.zeros(shape=(len(dat), 3, 300, 25, 2))
+    all_data = np.zeros(shape=(len(dat), args.coordinates, 300, args.joints, 2))
+    ##print(all_data.shape)
     # sk = np.array(sk)
     # sk = sk.transpose(1, 2, 0, 3)
     for file in range(len(dat)):
